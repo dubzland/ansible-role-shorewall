@@ -14,5 +14,5 @@
 ###############################################################################
 #ZONE	TYPE	OPTIONS			IN			OUT
 {% for zone in dubzland_shorewall_zones %}
-{{ zone.name }}   {{ zone.type }}
+{{ '%-5s\t%s' | format(zone.name, zone.type) }}
 {% endfor %}

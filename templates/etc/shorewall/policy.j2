@@ -19,5 +19,5 @@
 {%   if policy.log_level is defined and policy.log_level %}
 {%     set _log_level = policy.log_level %}
 {%   endif %}
-{{ '%-5s\t%-10s\t%-10s\t%-10s' | format(policy.source, policy.dest, policy.action, _log_level) }}
+{{ '%-7s\t\t%-4s\t\t%-6s\t\t%s' | format(policy.source, policy.dest, policy.action, _log_level) }}
 {% endfor %}

@@ -16,5 +16,5 @@
 ###############################################################################
 #ZONE	INTERFACE	OPTIONS
 {% for iface in dubzland_shorewall_interfaces %}
-{{ '%-5s\t%-10s\t%-10s' | format(iface.zone, iface.name, iface.options | join(',')) }}
+{{ '%-5s\t%-9s\t%-10s' | format(iface.zone, iface.name, iface.options | join(',')) }}
 {% endfor %}
