@@ -30,6 +30,11 @@
           sources:
             - "-"
           interface: eth0
+        dubzland_shorewall_zones:
+          - name: fw
+            type: firewall
+          - name: net
+            type: ipv4
   tasks:
     - name: grab /etc/shorewall/interfaces
       command: /bin/cat /etc/shorewall/interfaces
@@ -55,3 +60,11 @@
         msg: "{{ shorewall_snat_conf.stdout_lines }}"
       when:
         shorewall_snat_conf is defined
+    - name: grab /etc/shorewall/zones
+      command: /bin/cat /etc/shorewall/zones
+      register: shorewall_zones_conf
+    - name: dump /etc/shorewall/zones
+      debug:
+        msg: "{{ shorewall_zones_conf.stdout_lines }}"
+      when:
+        shorewall_zones_conf is defined

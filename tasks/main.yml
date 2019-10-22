@@ -41,7 +41,7 @@
   with_items:
     - interfaces
     - policy
-    # - zones
+    - zones
     - snat
     # - rules
   notify:

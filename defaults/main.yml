@@ -1,5 +1,6 @@
 ---
 dubzland_shorewall_interfaces: []
-dubzland_shorewall_policies: []
 dubzland_shorewall_masquerade:
   enabled: False
+dubzland_shorewall_policies: []
+dubzland_shorewall_zones: []
