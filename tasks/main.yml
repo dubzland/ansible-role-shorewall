@@ -34,7 +34,7 @@
 - name: ensure shorewall is configured
   template:
     src: "etc/shorewall/{{ item }}.j2"
-    dest: "/etc/shorewall/{{ item }}.j2"
+    dest: "/etc/shorewall/{{ item }}"
     owner: root
     group: root
     mode: 0644
