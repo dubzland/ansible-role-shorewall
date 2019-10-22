@@ -26,4 +26,5 @@
 {{ rule.action }}   {{ rule.source }}   {{ rule.dest }}  {{ rule.proto | default('') }}  {{ rule.dest_ports | default([]) | join(',') }}
 {%     endfor %}
 {%   endif %}
+
 {% endfor %}
