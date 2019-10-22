@@ -14,7 +14,7 @@
 ###############################################################################
 #SOURCE		DEST		POLICY		LOG LEVEL	LIMIT:BURST
 
-{% for policy in shorewall_policies %}
+{% for policy in dubzland_shorewall_policies %}
 {{ policy.source }}    {{ policy.dest }}     {{ policy.action }}{% if policy.log_level is defined and policy.log_level != 'None' %} {{ policy.log_level }}{% endif %}
 
 {% endfor %}

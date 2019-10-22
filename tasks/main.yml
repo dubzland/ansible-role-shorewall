@@ -39,9 +39,9 @@
     group: root
     mode: 0644
   with_items:
-    # - zones
     - interfaces
-    # - policy
+    - policy
+    # - zones
     # - snat
     # - rules
   notify:
