@@ -38,25 +38,21 @@
           - name: lan
             type: ipv4
         dubzland_shorewall_rules:
-          - comment: PINGS
-            section: NEW
+          - section: NEW
             rules:
-              - action: Ping(ACCEPT)
+              - comment: PINGS
+                action: Ping(ACCEPT)
                 source: all
                 dest: all
-          - comment: DNS
-            section: NEW
-            rules:
-              - action: DNS(ACCEPT)
+              - comment: DNS
+                action: DNS(ACCEPT)
                 source: all
                 dest: $FW
               - action: DNS(ACCEPT
                 source: $FW
                 dest: net
-          - comment: DHCP
-            section: NEW
-            rules:
-              - action: ACCEPT
+              - comment: DHCP
+                action: ACCEPT
                 source: lan
                 dest: $FW
                 proto: tcp
