@@ -1,0 +1,16 @@
+image: docker:19.03.1
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - docker:19.03.1-dind
+
+before_script:
+  - docker info
+
+test:
+  stage: test
+  script:
+    - docker build -t dubzland-shorewall -f tests/Dockerfile .
+    - docker run dubzland-shorewall /usr/src/dubzland-shorewall/tests/run_tests.sh
