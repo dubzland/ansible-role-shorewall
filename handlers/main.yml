@@ -3,4 +3,4 @@
   service:
     name: shorewall
     state: restarted
-  when: skip_handlers | default(False) == True
+  when: skip_handlers | default(False) == False
