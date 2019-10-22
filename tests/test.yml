@@ -2,7 +2,7 @@
 - hosts: localhost
   become: yes
   roles:
-    - role: ansible-role-shorewall
+    - role: dubzland-shorewall
       vars:
         dubzland_shorewall_interfaces:
           - zone: net
