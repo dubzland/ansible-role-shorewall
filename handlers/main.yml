@@ -1,0 +1,6 @@
+---
+- name: restart shorewall
+  service:
+    name: shorewall
+    state: restarted
+  when: skip_handlers | default(False) == True

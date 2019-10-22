@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: ansible-role-shorewall
+      vars:
+        dubzland_shorewall_interfaces:
+          - zone: net
+            name: eth0
+            options:
+              - tcpflags
+              - nosmurfs
+              - sourceroute=0
+          - zone: lan
+            name: eth1
+            options:
+              - tcpflags
+              - nosmurfs

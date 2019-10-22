@@ -1,0 +1,57 @@
+---
+- name: ensure ipv4 forwarding is enabled
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+  tags:
+    - shorewall
+
+- name: ensure shorewall is installed
+  package:
+    name: shorewall
+    state: present
+  tags:
+    - shorewall
+
+- name: ensure ufw is not installed
+  package:
+    name: 'ufw'
+    state: absent
+  tags:
+    - shorewall
+
+- name: ensure shorewall is configured
+  template:
+    src: "etc/shorewall/{{ item }}.j2"
+    dest: "/etc/shorewall/{{ item }}.j2"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    # - zones
+    - interfaces
+    # - policy
+    # - snat
+    # - rules
+  notify:
+    - restart shorewall
+  tags:
+    - shorewall
+
+- name: ensure shorewall is configured to start on boot
+  service:
+    name: shorewall
+    enabled: yes
+    use: service
+  tags:
+    - shorewall
+
+- name: ensure shorewall is running
+  service:
+    name: shorewall
+    state: started
+  tags:
+    - shorewall
