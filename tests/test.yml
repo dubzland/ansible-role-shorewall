@@ -25,6 +25,11 @@
             dest: all
             action: REJECT
             log_level: info
+        dubzland_shorewall_masquerade:
+          enabled: True
+          sources:
+            - -
+          interface: eth0
   tasks:
     - name: grab /etc/shorewall/interfaces
       command: /bin/cat /etc/shorewall/interfaces
@@ -42,3 +47,11 @@
         msg: "{{ shorewall_policy_conf.stdout_lines }}"
       when:
         shorewall_policy_conf is defined
+    - name: grab /etc/shorewall/snat
+      command: /bin/cat /etc/shorewall/snat
+      register: shorewall_snat_conf
+    - name: dump /etc/shorewall/snat
+      debug:
+        msg: "{{ shorewall_snat_conf.stdout_lines }}"
+      when:
+        shorewall_snat_conf is defined

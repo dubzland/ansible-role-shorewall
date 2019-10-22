@@ -42,7 +42,7 @@
     - interfaces
     - policy
     # - zones
-    # - snat
+    - snat
     # - rules
   notify:
     - restart shorewall

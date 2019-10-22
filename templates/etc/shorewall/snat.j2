@@ -15,7 +15,6 @@
 # See http://shorewall.net/manpages/shorewall-snat.html for more information
 ###########################################################################################################################################
 #ACTION			SOURCE			DEST            PROTO	PORT	IPSEC	MARK	USER	SWITCH	ORIGDEST	PROBABILITY
-#
-# Rules generated from masq file /home/teastep/shorewall/trunk/Shorewall/Samples/three-interfaces/masq by Shorewall 5.0.13-RC1 - Sat Oct 15 11:43:47 PDT 2016
-#
-MASQUERADE - {{ shorewall_interfaces | json_query("[?zone=='net'].name") | first }}
+{% if dubzland_shorewall_masquerade.enabled %}
+MASQUERADE {{ dubzland_shorewall_masquerade.sources | join(',') }} {{ dubzland_shorewall_masquerade.interface }}
+{% endif %}
