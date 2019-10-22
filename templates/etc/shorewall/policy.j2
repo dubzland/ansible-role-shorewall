@@ -15,6 +15,9 @@
 #SOURCE		DEST		POLICY		LOG LEVEL	LIMIT:BURST
 
 {% for policy in dubzland_shorewall_policies %}
-{{ policy.source }}    {{ policy.dest }}     {{ policy.action }}{% if policy.log_level is defined and policy.log_level != 'None' %} {{ policy.log_level }}{% endif %}
-
+{%   set _log_level = "" %}
+{%   if policy.log_level is defined and policy.log_level is not None %}
+{%     set _log_level = policy.log_level %}
+{%   endif %}
+{{ '%-5s\t%-10s\t%-10s\t%-10s' | format(policy.source, policy.dest, policy.action, _log_level) }}
 {% endfor %}
