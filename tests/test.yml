@@ -16,3 +16,12 @@
             options:
               - tcpflags
               - nosmurfs
+  tasks:
+    - name: grab /etc/shorewall/interfaces
+      command: /bin/cat /etc/shorewall/interfaces
+      register: shorewall_interfaces_conf
+    - name: dump /etc/shorewall/interfaces
+      debug:
+        msg: "{{ shorewall_interfaces_conf }}"
+      when:
+        shorewall_interfaces_conf is defined
