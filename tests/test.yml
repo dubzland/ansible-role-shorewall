@@ -64,7 +64,7 @@
                   - 847
   tasks:
     - name: grab /etc/shorewall/interfaces
-      command: /bin/cat /etc/shorewall/interfaces.new
+      command: /bin/cat /etc/shorewall/interfaces
       register: shorewall_interfaces_conf
     - name: dump /etc/shorewall/interfaces
       debug:
@@ -72,7 +72,7 @@
       when:
         shorewall_interfaces_conf is defined
     - name: grab /etc/shorewall/policy
-      command: /bin/cat /etc/shorewall/policy.new
+      command: /bin/cat /etc/shorewall/policy
       register: shorewall_policy_conf
     - name: dump /etc/shorewall/policy
       debug:
@@ -80,7 +80,7 @@
       when:
         shorewall_policy_conf is defined
     - name: grab /etc/shorewall/snat
-      command: /bin/cat /etc/shorewall/snat.new
+      command: /bin/cat /etc/shorewall/snat
       register: shorewall_snat_conf
     - name: dump /etc/shorewall/snat
       debug:
@@ -88,7 +88,7 @@
       when:
         shorewall_snat_conf is defined
     - name: grab /etc/shorewall/zones
-      command: /bin/cat /etc/shorewall/zones.new
+      command: /bin/cat /etc/shorewall/zones
       register: shorewall_zones_conf
     - name: dump /etc/shorewall/zones
       debug:
@@ -96,7 +96,7 @@
       when:
         shorewall_zones_conf is defined
     - name: grab /etc/shorewall/rules
-      command: /bin/cat /etc/shorewall/rules.new
+      command: /bin/cat /etc/shorewall/rules
       register: shorewall_rules_conf
     - name: dump /etc/shorewall/rules
       debug:
