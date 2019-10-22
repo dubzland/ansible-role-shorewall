@@ -16,5 +16,5 @@
 ###########################################################################################################################################
 #ACTION			SOURCE			DEST            PROTO	PORT	IPSEC	MARK	USER	SWITCH	ORIGDEST	PROBABILITY
 {% if dubzland_shorewall_masquerade.enabled %}
-MASQUERADE {{ '\t%-6s\t\t\t%s' | format(dubzland_shorewall_masquerade.sources | join(','), dubzland_shorewall_masquerade.interface) }}
+MASQUERADE		{{ '%-6s\t\t\t%s' | format(dubzland_shorewall_masquerade.sources | join(','), dubzland_shorewall_masquerade.interface) }}
 {% endif %}
