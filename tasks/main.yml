@@ -1,4 +1,11 @@
 ---
+- name: ensure required packages are installed
+  package:
+    name: procps
+    state: present
+  tags:
+    - shorewall
+
 - name: ensure ipv4 forwarding is enabled
   sysctl:
     name: net.ipv4.ip_forward
