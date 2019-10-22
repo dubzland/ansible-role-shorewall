@@ -23,7 +23,7 @@
 ?SECTION {{ ruleset.section }}
 {%   if ruleset.rules is defined and ruleset.rules %}
 {%     for rule in ruleset.rules %}
-{{ rule.action }}   {{ rule.source }}   {{ rule.dest }}  {{ rule.proto }}  {{ rule.dest_ports|join(',') }}
+{{ rule.action }}   {{ rule.source }}   {{ rule.dest }}  {{ rule.proto | default([]) }}  {{ rule.dest_ports | default([]) | join(',') }}
 {%     endfor %}
 {%   endif %}
 {% endfor %}

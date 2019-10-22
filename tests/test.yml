@@ -60,7 +60,7 @@
                 source: lan
                 dest: $FW
                 proto: tcp
-                ports:
+                dest_ports:
                   - 847
   tasks:
     - name: grab /etc/shorewall/interfaces
