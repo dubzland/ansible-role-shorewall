@@ -43,7 +43,7 @@
     - policy
     - zones
     - snat
-    # - rules
+    - rules
   notify:
     - restart shorewall
   tags:

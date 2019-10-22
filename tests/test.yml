@@ -35,6 +35,33 @@
             type: firewall
           - name: net
             type: ipv4
+          - name: lan
+            type: ipv4
+        dubzland_shorewall_rules:
+          - comment: PINGS
+            section: NEW
+            rules:
+              - action: Ping(ACCEPT)
+                source: all
+                dest: all
+          - comment: DNS
+            section: NEW
+            rules:
+              - action: DNS(ACCEPT)
+                source: all
+                dest: $FW
+              - action: DNS(ACCEPT
+                source: $FW
+                dest: net
+          - comment: DHCP
+            section: NEW
+            rules:
+              - action: ACCEPT
+                source: lan
+                dest: $FW
+                proto: tcp
+                ports:
+                  - 847
   tasks:
     - name: grab /etc/shorewall/interfaces
       command: /bin/cat /etc/shorewall/interfaces
@@ -68,3 +95,11 @@
         msg: "{{ shorewall_zones_conf.stdout_lines }}"
       when:
         shorewall_zones_conf is defined
+    - name: grab /etc/shorewall/rules
+      command: /bin/cat /etc/shorewall/rules
+      register: shorewall_rules_conf
+    - name: dump /etc/shorewall/rules
+      debug:
+        msg: "{{ shorewall_rules_conf.stdout_lines }}"
+      when:
+        shorewall_rules_conf is defined

@@ -14,14 +14,16 @@
 ######################################################################################################################################################################################################
 #ACTION		SOURCE		DEST		PROTO	DEST	SOURCE		ORIGINAL	RATE		USER/	MARK	CONNLIMIT	TIME		HEADERS		SWITCH		HELPER
 #							PORT	PORT(S)		DEST		LIMIT		GROUP
-{% for ruleset in shorewall_rulesets %}
+{% for ruleset in dubzland_shorewall_rules %}
+{%   if ruleset.comment is defined and ruleset.comment %}
 #
 # {{ ruleset.comment }}
 #
-{%   if ruleset.rules is defined %}
+{%   endif %}
 ?SECTION {{ ruleset.section }}
+{%   if ruleset.rules is defined and ruleset.rules %}
 {%     for rule in ruleset.rules %}
-{{ rule.action }}   {{ rule.source }}   {{ rule.dest }} {{ rule.proto }} {{ rule.dest_ports | join(",") }}
+{{ rule.action }}   {{ rule.source }}   {{ rule.dest }}  {{ rule.proto }}  {{ rule.dest_ports|join(',') }}
 {%     endfor %}
 {%   endif %}
 {% endfor %}
