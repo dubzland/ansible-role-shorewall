@@ -28,7 +28,7 @@
         dubzland_shorewall_masquerade:
           enabled: True
           sources:
-            - -
+            - "-"
           interface: eth0
   tasks:
     - name: grab /etc/shorewall/interfaces
