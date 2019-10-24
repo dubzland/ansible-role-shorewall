@@ -70,24 +70,88 @@ dubzland_shorewall_rules:
         rules: { action: "ACCEPT", source: "$FW", dest: net, proto: udp, test_ports: [80, 443] }
 ```
 
-The meat of this role.  Configures the rules Shorewall will use to determine how to handle packets traversing its monitored interfaces.  Set the [rules man page](http://www.shorewall.net/manpages/shorewall-rules.html) for more info.
+The meat of this role.  Configures the rules Shorewall will use to determine how to handle packets traversing its monitored interfaces.  See the [rules man page](http://www.shorewall.net/manpages/shorewall-rules.html) for more info.
 
 ## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 ## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Given a machine with 2 nics (`eth0` on the internet, `eth1` on the LAN):
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```
+- hosts: firewall
+  become: yes
+  roles:
+    - role: dubzland-shorewall
+      vars:
+        dubzland_shorewall_zones:
+          - name: fw
+            type: firewall
+          - name: net
+            type: ipv4
+          - name: lan
+            type: ipv4
+        dubzland_shorewall_interfaces:
+          - name: eth0
+            zone: net
+            options:
+              - tcpflags
+              - nosmurfs
+              - routefilter
+              - logmartians
+              - "sourceroute=0"
+          - name: eth1
+            zone: lan
+            options:
+              - tcpflags
+              - nosmurfs
+              - logmartians
+              - routefilter
+              - dhcp
+        dubzland_shorewall_policies:
+          - source: "$FW"
+            dest: all
+            policy: ACCEPT
+          - source: net
+            dest: all
+            policy: REJECT
+          - source: all
+            dest: all
+            policy: REJECT
+            log_level: info
+        dubzland_shorewall_masquerade:
+          enabled: True
+        dubzland_shorewall_rules:
+          - section: NEW
+            rulesets:
+              - comment: Pings
+                rules:
+                  - action: Ping(ACCEPT)
+                    source: all
+                    dest: all
+              - comment: Web Surfing
+                rules:
+                  - action: Web(ACCEPT)
+                    source: lan
+                    dest: net
+                  - action: ACCEPT
+                    source: lan
+                    dest: net
+                    proto: udp
+                    dest_ports:
+                      - 80
+                      - 443
+```
+
+This would everyone to ping the firewall machine, and LAN clients to ping hosts
+on the internet.  All LAN clients would also be able to browse the web.
 
 ## License
 
-BSD
+MIT
 
-## Author Information
+## Author
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+* [Josh Williams](https://codingprime.com)
