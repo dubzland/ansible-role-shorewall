@@ -80,7 +80,7 @@ None.
 
 Given a machine with 2 nics (`eth0` on the internet, `eth1` on the LAN):
 
-```
+```yaml
 - hosts: firewall
   become: yes
   roles:
