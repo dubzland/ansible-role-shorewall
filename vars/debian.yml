@@ -1,0 +1,6 @@
+---
+dubzland_shorewall_incompatible_packages:
+  - ufw
+  - iptables-service
+dubzland_shorewall_prerequisites:
+  - procps

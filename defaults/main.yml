@@ -1,7 +1,33 @@
 ---
-dubzland_shorewall_interfaces: []
+dubzland_shorewall_zones:
+  - name: fw
+    type: firewall
+  - name: net
+    type: ipv4
+
+dubzland_shorewall_interfaces:
+  - name: eth0
+    zone: net
+    options:
+      - tcpflags
+      - nosmurfs
+      - routefilter
+      - logmartians
+      - "sourceroute=0"
+
+dubzland_shorewall_policies:
+  - source: "$FW"
+    dest: all
+    policy: ACCEPT
+  - source: net
+    dest: all
+    policy: REJECT
+  - source: all
+    dest: all
+    policy: REJECT
+    log_level: info
+
+
 dubzland_shorewall_masquerade:
   enabled: False
-dubzland_shorewall_policies: []
-dubzland_shorewall_zones: []
 dubzland_shorewall_rules: []

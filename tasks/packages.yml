@@ -1,0 +1,14 @@
+---
+- name: ensure incompatible packages are not installed
+  package:
+    name: "{{ dubzland_shorewall_incompatible_packages | default([]) }}"
+    state: absent
+  tags:
+    - shorewall
+
+- name: ensure required packages are installed
+  package:
+    name: {{ [procps] | combine(dubzland_shorewall_prerequisites) }}
+    state: present
+  tags:
+    - shorewall

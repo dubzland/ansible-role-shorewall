@@ -1,10 +1,7 @@
 ---
-- name: ensure required packages are installed
-  package:
-    name: procps
-    state: present
-  tags:
-    - shorewall
+- import_tasks: variables.yml
+- import_tasks: packages.yml
+- import_tasks: configuration.yml
 
 - name: ensure ipv4 forwarding is enabled
   sysctl:
@@ -17,24 +14,10 @@
   tags:
     - shorewall
 
-- name: ensure shorewall is installed
-  package:
-    name: shorewall
-    state: present
-  tags:
-    - shorewall
-
-- name: ensure ufw is not installed
-  package:
-    name: 'ufw'
-    state: absent
-  tags:
-    - shorewall
-
 - name: ensure shorewall is configured
   template:
     src: "etc/shorewall/{{ item }}.j2"
-    dest: "/etc/shorewall/{{ item }}"
+    dest: "{{ dubzland_shorewall_configuration_root }}/{{ item }}"
     owner: root
     group: root
     mode: 0644

@@ -1,0 +1,7 @@
+---
+- name: set os-specific variables
+  include_vars: "{{ lookup('first_found', possible_files) }}"
+  vars:
+    possible_files:
+      - "{{ ansible_os_family }}-{{ ansible_distribution }}.yml"
+      - "{{ ansible_os_family }}.yml"
