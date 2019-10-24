@@ -8,11 +8,39 @@ Ansible version 2.0 or higher.
 
 ## Role Variables
 
-Variable | Dictionary / Options
+```yaml
+dubzland_shorewall_zones:
+  - { name: fw, type: firewall }
+  - { name: net, type: ipv4 }
+
+dubzland_shorewall_interfaces:
+  - { name: eth0, zone: net, options: ['tcpflags', 'nosmurfs', 'routefilter', 'logmartians', 'sourceroute=0'] }
+
+dubzland_shorewall_policies:
+  - { source: "$FW", dest: all, policy: ACCEPT }
+  - { source: net, dest: all, policy: REJECT }
+  - { source: all, dest: all, policy: REJECT, log_level: info }
+
+dubzland_shorewall_masquerade:
+  enabled: False
+
+dubzland_shorewall_rules:
+  - section: NEW
+    rulesets:
+      - comment: PINGS
+        rules: { action: "ACCEPT", source: all, dest: all, proto: icmp, dest_ports: [8] }
+      - comment: Web traffic
+        rules: { action: "ACCEPT", source: "$FW", dest: net, proto: tcp, test_ports: [80, 443] }
+        rules: { action: "ACCEPT", source: "$FW", dest: net, proto: udp, test_ports: [80, 443] }
+```
+Variable | Options
 --- | ---
-[dubzland_shorewall_interfaces](#dubzland_shorewall_interfaces) | network
+[dubzland_shorewall_interfaces](#dubzland_shorewall_interfaces) | []
 interfaces shorewall will handle
-[dubzland_shorewall_zones](#dubzland_shorewall_zones) | zones to be monitored
+[dubzland_shorewall_zones](#dubzland_shorewall_zones) | ```yaml - name: fw\n type: ipv4 name: net type: ipv4
+- name: lan
+  type: ipv4
+```
 dubzland_shorewall_policies | moar stuff
 dubzland_shorewall_masquerade | wow
 dubzland_shorewall_rules | so bad
@@ -46,13 +74,6 @@ dubzland_shorewall_interfaces:
       - tcpflags
       - nosmurfs
       - sourceroute=0
-  - name: eth1
-    zone: lan
-    options:
-      - tcpflags
-      - nosmurfs
-      - logmartians
-      - dhcp
 ```
 
 Dependencies
