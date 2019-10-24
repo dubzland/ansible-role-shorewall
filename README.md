@@ -1,17 +1,25 @@
-Role Name
+Dubzland: Shorewall
 =========
 
-A brief description of the role goes here.
+Installs and configures the Shorewall firewall builder.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Ansible version 2.0 or higher.
 
 Role Variables
 --------------
+Variable | Dictionary / Options
+--- | ---
+[dubzland_shorewall_interfaces](#dubzland_shorewall_interfaces) | network
+interfaces shorewall will handle
+dubzland_shorewall_zones | Stuff
+dubzland_shorewall_policies | moar stuff
+dubzland_shorewall_masquerade | wow
+dubzland_shorewall_rules | so bad
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+### <a id="dubzland_shorewall_interfaces"></a>dubzland_shorewall_interfaces
 
 Dependencies
 ------------
