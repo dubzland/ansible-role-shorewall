@@ -39,25 +39,28 @@
             type: ipv4
         dubzland_shorewall_rules:
           - section: NEW
-            rules:
+            rulesets:
               - comment: PINGS
-                action: Ping(ACCEPT)
-                source: all
-                dest: all
+                rules:
+                  - action: Ping(ACCEPT)
+                    source: all
+                    dest: all
               - comment: DNS
-                action: DNS(ACCEPT)
-                source: all
-                dest: $FW
-              - action: DNS(ACCEPT
-                source: $FW
-                dest: net
+                rules:
+                  - action: DNS(ACCEPT)
+                    source: all
+                    dest: $FW
+                  - action: DNS(ACCEPT
+                    source: $FW
+                    dest: net
               - comment: DHCP
-                action: ACCEPT
-                source: lan
-                dest: $FW
-                proto: tcp
-                dest_ports:
-                  - 847
+                rules:
+                  - action: ACCEPT
+                    source: lan
+                    dest: $FW
+                    proto: tcp
+                    dest_ports:
+                      - 847
   tasks:
     - name: grab /etc/shorewall/interfaces
       command: /bin/cat /etc/shorewall/interfaces
