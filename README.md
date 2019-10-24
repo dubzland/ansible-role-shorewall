@@ -12,10 +12,26 @@ Variable | Dictionary / Options
 --- | ---
 [dubzland_shorewall_interfaces](#dubzland_shorewall_interfaces) | network
 interfaces shorewall will handle
-dubzland_shorewall_zones | Stuff
+[dubzland_shorewall_zones](#dubzland_shorewall_zones) | zones to be monitored
 dubzland_shorewall_policies | moar stuff
 dubzland_shorewall_masquerade | wow
 dubzland_shorewall_rules | so bad
+
+### <a id="dubzland_shorewall_zones"></a>dubzland_shorewall_zones
+
+Zones to be declared in `/etc/shorewall/zones`.  See the [zones man
+page](https://www.shorewall.net/manpages/shorewall-zones.html) for more info.
+
+**example**
+```yaml
+dubzland_shorewall_zones:
+  - name: fw
+    type: firewall
+  - name: net
+    type: ipv4
+  - name: lan
+    type: ipv4
+```
 
 ### <a id="dubzland_shorewall_interfaces"></a>dubzland_shorewall_interfaces
 
