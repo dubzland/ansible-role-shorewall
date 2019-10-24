@@ -1,15 +1,13 @@
-Dubzland: Shorewall
-=========
+# Dubzland: Shorewall
 
 Installs and configures the Shorewall firewall builder.
 
-Requirements
-------------
+## Requirements
 
 Ansible version 2.0 or higher.
 
-Role Variables
---------------
+## Role Variables
+
 Variable | Dictionary / Options
 --- | ---
 [dubzland_shorewall_interfaces](#dubzland_shorewall_interfaces) | network
@@ -23,6 +21,7 @@ dubzland_shorewall_rules | so bad
 
 List of interfaces shorewall should be configured for.
 
+#### example
 ```yaml
 dubzland_shorewall_interfaces:
   - name: eth0
