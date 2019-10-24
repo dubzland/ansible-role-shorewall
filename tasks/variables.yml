@@ -5,3 +5,5 @@
     possible_files:
       - "{{ ansible_os_family }}-{{ ansible_distribution }}.yml"
       - "{{ ansible_os_family }}.yml"
+    paths:
+      - 'vars'
