@@ -34,27 +34,10 @@ dubzland_shorewall_rules:
         rules: { action: "ACCEPT", source: "$FW", dest: net, proto: udp, test_ports: [80, 443] }
 ```
 
-### dubzland_shorewall_interfaces
-
-List of interfaces shorewall should be configured for in
-`/etc/shorewall/interfaces`.  See the [interfaces man
-page](https://www.shorewall.net/manpages/shorewall-interfaces.html) for more info.
-
-**example**
-```yaml
-dubzland_shorewall_interfaces:
-  - name: eth0
-    zone: net
-    options:
-      - tcpflags
-      - nosmurfs
-      - sourceroute=0
-```
-
 ### dubzland_shorewall_zones
 
 Zones to be declared in `/etc/shorewall/zones`.  See the [zones man
-page](https://www.shorewall.net/manpages/shorewall-zones.html) for more info.
+page](http://www.shorewall.net/manpages/shorewall-zones.html) for more info.
 
 **example**
 ```yaml
@@ -67,6 +50,63 @@ dubzland_shorewall_zones:
     type: ipv4
 ```
 
+### dubzland_shorewall_interfaces
+
+List of interfaces shorewall should be configured for in
+`/etc/shorewall/interfaces`.  See the [interfaces man
+page](http://www.shorewall.net/manpages/shorewall-interfaces.html) for more info.
+
+**example**
+```yaml
+dubzland_shorewall_interfaces:
+  - name: eth0
+    zone: net
+    options:
+      - tcpflags
+      - nosmurfs
+      - sourceroute=0
+```
+
+### dubzland_shorewall_policies
+Policies used by Shorewall to determine the default action to take for a given packet based on its zone traversal.  See the [policies man page](http://www.shorewall.net/manpages/shorewall-policies.html) for more info.
+
+**example**
+```yaml
+dubzland_shorewall_policies:
+  - source: net
+    dest: $FW
+    policy: REJECT
+    log_level: info
+```
+
+### dubzland_shorewall_masquerade
+Configures masquerading (now SNAT) for iptables.  Necessary if you want to NAT all outbound traffic.  See the [snat man page](http://www.shorewall.net/manpages/shorewall-snat.html) for more info.
+
+**example**
+```yaml
+dubzland_shorewall_masquerade:
+  enabled: True
+  sources: ["-"]
+  interface: eth0
+```
+
+### dubzland_shorewall_rules
+The meat of this role.  Configures the rules Shorewall will use to determine how to handle packets traversing its monitored interfaces.  Set the [rules man page](http://www.shorewall.net/manpages/shorewall-rules.html) for more info.
+
+**example**
+```yaml
+dubland_shorewall_rules:
+  - section: NEW
+    rulesets:
+      - comment: Minecraft server
+        rules:
+          - action: ACCEPT
+            source: lan
+            dest: net
+            proto: tcp
+            ports:
+              - 25565
+```
 Dependencies
 ------------
 
