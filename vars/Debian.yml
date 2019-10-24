@@ -5,3 +5,4 @@ dubzland_shorewall_incompatible_packages:
   - iptables-service
 dubzland_shorewall_prerequisites:
   - procps
+dubzland_shorewall_package_name: shorewall

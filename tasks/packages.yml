@@ -8,7 +8,7 @@
 
 - name: ensure required packages are installed
   package:
-    name: "{{ ['procps'] + dubzland_shorewall_prerequisites }}"
+    name: "{{ [dubzland_shorewall_package_name] + dubzland_shorewall_prerequisites }}"
     state: present
   tags:
     - shorewall
