@@ -1,4 +1,5 @@
 ---
+dubzland_shorewall_configuration_root: /etc/shorewall
 dubzland_shorewall_incompatible_packages:
   - ufw
   - iptables-service
