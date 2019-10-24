@@ -21,6 +21,25 @@ dubzland_shorewall_rules | so bad
 
 ### <a id="dubzland_shorewall_interfaces"></a>dubzland_shorewall_interfaces
 
+List of interfaces shorewall should be configured for.
+
+```
+dubzland_shorewall_interfaces:
+  - name: eth0
+    zone: net
+    options:
+      - tcpflags
+      - nosmurfs
+      - sourceroute=0
+  - name: eth1
+    zone: lan
+    options:
+      - tcpflags
+      - nosmurfs
+      - logmartians
+      - dhcp
+```
+
 Dependencies
 ------------
 
