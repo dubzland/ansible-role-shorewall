@@ -23,7 +23,7 @@ dubzland_shorewall_rules | so bad
 
 List of interfaces shorewall should be configured for.
 
-```
+```yaml
 dubzland_shorewall_interfaces:
   - name: eth0
     zone: net
