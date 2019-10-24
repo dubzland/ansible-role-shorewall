@@ -28,24 +28,30 @@ dubzland_shorewall_rules:
   - section: NEW
     rulesets:
       - comment: PINGS
-        rules: { action: "ACCEPT", source: all, dest: all, proto: icmp, dest_ports: [8] }
+        rules: { action: "Ping(ACCEPT)", source: all, dest: all }
       - comment: Web traffic
-        rules: { action: "ACCEPT", source: "$FW", dest: net, proto: tcp, test_ports: [80, 443] }
+        rules: { action: "Web(ACCEPT)", source: "$FW", dest: net }
         rules: { action: "ACCEPT", source: "$FW", dest: net, proto: udp, test_ports: [80, 443] }
 ```
-Variable | Options
---- | ---
-[dubzland_shorewall_interfaces](#dubzland_shorewall_interfaces) | []
-interfaces shorewall will handle
-[dubzland_shorewall_zones](#dubzland_shorewall_zones) | ```yaml - name: fw\n type: ipv4 name: net type: ipv4
-- name: lan
-  type: ipv4
-```
-dubzland_shorewall_policies | moar stuff
-dubzland_shorewall_masquerade | wow
-dubzland_shorewall_rules | so bad
 
-### <a id="dubzland_shorewall_zones"></a>dubzland_shorewall_zones
+### dubzland_shorewall_interfaces
+
+List of interfaces shorewall should be configured for in
+`/etc/shorewall/interfaces`.  See the [interfaces man
+page](https://www.shorewall.net/manpages/shorewall-interfaces.html) for more info.
+
+**example**
+```yaml
+dubzland_shorewall_interfaces:
+  - name: eth0
+    zone: net
+    options:
+      - tcpflags
+      - nosmurfs
+      - sourceroute=0
+```
+
+### dubzland_shorewall_zones
 
 Zones to be declared in `/etc/shorewall/zones`.  See the [zones man
 page](https://www.shorewall.net/manpages/shorewall-zones.html) for more info.
@@ -59,21 +65,6 @@ dubzland_shorewall_zones:
     type: ipv4
   - name: lan
     type: ipv4
-```
-
-### <a id="dubzland_shorewall_interfaces"></a>dubzland_shorewall_interfaces
-
-List of interfaces shorewall should be configured for.
-
-**example**
-```yaml
-dubzland_shorewall_interfaces:
-  - name: eth0
-    zone: net
-    options:
-      - tcpflags
-      - nosmurfs
-      - sourceroute=0
 ```
 
 Dependencies
