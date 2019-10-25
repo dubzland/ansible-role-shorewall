@@ -26,12 +26,3 @@
     - restart shorewall
   tags:
     - shorewall
-
-- name: ensure shorewall is configured to start on boot
-  service:
-    name: shorewall
-    enabled: yes
-    use: service
-  tags:
-    - shorewall
-

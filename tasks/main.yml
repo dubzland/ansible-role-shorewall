@@ -3,6 +3,8 @@
 - import_tasks: packages.yml
 - import_tasks: configuration.yml
 
+- meta: flush_handlers
+
 - name: ensure shorewall is running
   service:
     name: shorewall

@@ -1,11 +1,10 @@
 ---
 - name: enable shorewall
   service:
-    name: {{ dubzland_shorewall_service_name }}
+    name: "{{ dubzland_shorewall_service_name }}"
     enabled: yes
 
 - name: restart shorewall
   service:
-    name: {{ dubzland_shorewall_service_name }}
+    name: "{{ dubzland_shorewall_service_name }}"
     state: restarted
-  when: skip_handlers | default(False) == False

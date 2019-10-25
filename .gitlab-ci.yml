@@ -1,4 +1,5 @@
-image: docker:19.03.1
+---
+image: docker:git
 
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
@@ -7,10 +8,13 @@ services:
   - docker:19.03.1-dind
 
 before_script:
+  - apk update && apk add --no-cache docker python3-dev py3-pip docker gcc git curl build-base autoconf automake py3-cryptography linux-headers musl-dev libffi-dev openssl-dev openssh
   - docker info
+  - python3 --version
 
-test:
+molecule:
   stage: test
   script:
-    - docker build -t dubzland-shorewall -f tests/Dockerfile .
-    - docker run dubzland-shorewall /usr/src/dubzland-shorewall/tests/run_tests.sh
+    - pip3 install ansible molecule docker
+    - ansible --version
+    - cd roles/testrole && molecule test

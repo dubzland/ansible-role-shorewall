@@ -10,5 +10,7 @@
   package:
     name: "{{ dubzland_shorewall_packages }}"
     state: present
+  notify:
+    - enable shorewall
   tags:
     - shorewall

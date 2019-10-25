@@ -18,13 +18,13 @@ dubzland_shorewall_interfaces:
 dubzland_shorewall_policies:
   - source: "$FW"
     dest: all
-    policy: ACCEPT
+    action: ACCEPT
   - source: net
     dest: all
-    policy: REJECT
+    action: REJECT
   - source: all
     dest: all
-    policy: REJECT
+    action: REJECT
     log_level: info
 
 
