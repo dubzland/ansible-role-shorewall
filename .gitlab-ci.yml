@@ -17,4 +17,4 @@ molecule:
   script:
     - pip3 install ansible molecule docker
     - ansible --version
-    - cd roles/testrole && molecule test
+    - cd roles/dubzland-shorewall && molecule test
