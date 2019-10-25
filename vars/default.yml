@@ -2,4 +2,6 @@
 dubzland_shorewall_incompatible_packages: []
 dubzland_shorewall_prerequisites: []
 dubzland_shorewall_configuration_root: /etc/shorewall
-dubzland_shorewall_package_name: shorewall
+dubzland_shorewall_packages:
+  - shorewall
+dubzland_shorewall_service_name: shorewall
