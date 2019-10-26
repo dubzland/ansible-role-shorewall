@@ -17,6 +17,4 @@ molecule:
   script:
     - pip3 install ansible molecule docker
     - ansible --version
-    - ls -l
-    - ls -l /
-    - cd roles/dubzland-shorewall && molecule test
+    - molecule converge
