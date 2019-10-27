@@ -7,7 +7,7 @@ lint:
   name: yamllint
 platforms:
   - name: instance
-    image: jdubz/docker-ansible-debian9
+    image: "jdubz/docker-ansible-${MOLECULE_DISTRO:-debian9}"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

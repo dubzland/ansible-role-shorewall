@@ -1,9 +1,6 @@
 ---
 image: docker:git
 
-variables:
-  DOCKER_TLS_CERTDIR: "/certs"
-
 services:
   - docker:19.03.1-dind
 
@@ -12,9 +9,19 @@ before_script:
   - docker info
   - python3 --version
 
-molecule:
+.job_template: &job_template
   stage: test
   script:
     - pip3 install ansible molecule docker
     - ansible --version
     - molecule converge
+
+molecule-debian9:
+  <<: *job_template
+  variables:
+    MOLECULE_DISTRO: debian9
+
+molecule-debian10:
+  <<: *job_template
+  variables:
+    MOLECULE_DISTRO: debian10
