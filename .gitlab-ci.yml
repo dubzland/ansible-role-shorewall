@@ -4,18 +4,8 @@ image: jdubz/ci-docker-ansible:latest
 services:
   - docker:19.03.1-dind
 
-.job_template: &job_template
+molecule:
   stage: test
   script:
     - ansible --version
-    - molecule converge
-
-molecule-debian9:
-  <<: *job_template
-  variables:
-    MOLECULE_DISTRO: debian9
-
-molecule-debian10:
-  <<: *job_template
-  variables:
-    MOLECULE_DISTRO: debian10
+    - molecule test
