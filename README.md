@@ -1,4 +1,5 @@
 # Dubzland: Shorewall
+![Gitlab pipeline status (self-hosted)](https://img.shields.io/gitlab/pipeline/jdubz/dubzland-shorewall?gitlab_url=https%3A%2F%2Fgit.dubzland.net)
 
 Installs and configures the Shorewall firewall builder.
 
