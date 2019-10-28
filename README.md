@@ -5,7 +5,7 @@ Installs and configures the Shorewall firewall builder.
 
 ## Requirements
 
-Ansible version 2.0 or higher.
+Ansible version 2.0 or higher.  Requires the `netaddr` python package.
 
 ## Role Variables
 
