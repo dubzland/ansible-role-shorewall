@@ -10,6 +10,7 @@
   package:
     name: "{{ dubzland_shorewall_packages }}"
     state: present
+    install_recommends: False
   notify:
     - enable shorewall
   tags:
