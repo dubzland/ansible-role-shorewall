@@ -3,7 +3,22 @@
   hosts: all
   pre_tasks:
     - name: update the apt cache
-      apt:
+      package:
         update_cache: true
+    - name: ensure iptables is installed (for the next task)
+      package:
+        name: iptables
+        state: present
+        install_recommends: False
+    - name: save the Docker created iptables rules
+      shell: iptables-save >> /etc/docker-iptables-rules
+      args:
+        creates: /etc/docker-iptables-rules
+
   roles:
     - role: dubzland-shorewall
+
+  post_tasks:
+    - name: restore the Docker created iptables rules
+      command: iptables-restore -n /etc/docker-iptables-rules
+      changed_when: False
