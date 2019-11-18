@@ -25,7 +25,7 @@
 {%     endif %}
 {%     if ruleset.rules is defined and ruleset.rules %}
 {%       for rule in ruleset.rules %}
-{{ ('%-12s\t%-12s\t%-12s\t%-5s\t%s' | format(rule.action, rule.source, rule.dest, rule.proto | default(''), rule.dest_ports | default([]) | join(','))) | trim()}}
+{{ ('%-12s\t%-12s\t%-12s\t%-5s\t%s\t%s' | format(rule.action, rule.source, rule.dest, rule.proto | default(''), rule.dest_ports | default([]) | join(',')), rule.origdest | default('')) | trim()}}
 {%       endfor %}
 {%     endif %}
 {%   endfor %}

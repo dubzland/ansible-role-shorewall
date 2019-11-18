@@ -1,6 +1,7 @@
 dependencies: []
 
 galaxy_info:
+  role_name: shorewall
   author: t3hpr1m3
   description: Shorewall for Debian
   company: Cedar House Labs
@@ -9,7 +10,10 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - all
+        - stretch
+        - buster
 
   galaxy_tags:
+    - iptables
     - firewall
+    - shorewall
