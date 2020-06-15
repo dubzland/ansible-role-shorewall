@@ -73,6 +73,16 @@ dubzland_shorewall_rules:
 
 The meat of this role.  Configures the rules Shorewall will use to determine how to handle packets traversing its monitored interfaces.  See the [rules man page](http://www.shorewall.net/manpages/shorewall-rules.html) for more info.
 
+### dubzland_shorewall_hosts
+
+```yaml
+dubzland_shorewall_hosts:
+  - zone: vpn
+    hosts: ppp+:192.168.3.0/24
+```
+
+Specifies hosts routable, but not directly accessible, by this router.
+
 ## Dependencies
 
 None.

@@ -15,6 +15,8 @@ dubzland_shorewall_interfaces:
       - logmartians
       - "sourceroute=0"
 
+dubzland_shorewall_hosts: []
+
 dubzland_shorewall_policies:
   - source: "$FW"
     dest: all
