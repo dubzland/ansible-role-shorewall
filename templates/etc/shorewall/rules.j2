@@ -1,4 +1,5 @@
 # {{ ansible_managed }}
+{% import 'macros.j2' as tpl with context %}
 #
 # Shorewall - Sample Rules File for three-interface configuration.
 # Copyright (C) 2006-2015 by the Shorewall Team
@@ -17,16 +18,6 @@
 {% for section in dubzland_shorewall_rules %}
 ?SECTION {{ section.section }}
 {%   for ruleset in section.rulesets %}
-{%     if ruleset.comment is defined and ruleset.comment %}
-
-#
-# {{ ruleset.comment }}
-#
-{%     endif %}
-{%     if ruleset.rules is defined and ruleset.rules %}
-{%       for rule in ruleset.rules %}
-{{ ('%-12s\t%-12s\t%-12s\t%-5s\t%s\t-\t%s' | format(rule.action, rule.source, rule.dest, rule.proto | default(''), rule.dest_ports | default([]) | join(','), rule.origdest | default(''))) | trim()}}
-{%       endfor %}
-{%     endif %}
+{{ tpl.print_ruleset }}
 {%   endfor %}
 {% endfor %}

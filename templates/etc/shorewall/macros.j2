@@ -1,0 +1,48 @@
+{##############################################################################
+ #
+ # MACRO :: print_rule()
+ #
+ #############################################################################}
+{% macro print_rule(rule) %}
+{%   if rule.comment is defined and rule.comment %}
+# {{ rule.comment }}
+{%   endif %}
+{%   set action = rule.action %}
+{%   set source = rule.source %}
+{%   set dest   = rule.dest %}
+{%   if rule.proto is defined and rule.proto %}
+{%     set proto  = rule.proto %}
+{%   else %}
+{%     set proto = "-" %}
+{%   endif %}
+{%   if rule.dest_ports is defined and rule.dest_ports %}
+{%     set dest_ports = (rule.dest_ports | join(',')) %}
+{%   else %}
+{%     set dest_ports = "-" %}
+{%   endif %}
+{%   if rule.source_ports is defined and rule.source_ports %}
+{%     set source_ports = (rule.source_ports | join(',')) %}
+{%   else %}
+{%     set source_ports = "-" %}
+{%   endif %}
+{%   set origdest = (rule.origdest | default('-')) %}
+{{ ('%-12s\t%-12s\t%-12s\t%-5s\t%-12s\t%-12s\t%-12s' | format(action, source, dest, proto, dest_ports, source_ports, origdest) | trim()) }}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_ruleset()
+ #
+ #############################################################################}
+{% macro print_ruleset(ruleset) %}
+{%     if ruleset.comment is defined and ruleset.comment %}
+
+#
+# {{ ruleset.comment }}
+#
+{%     endif %}
+{%     if ruleset.rules is defined and ruleset.rules %}
+{%       for rule in ruleset.rules %}
+{{ print_rule(rule) }}
+{%       endfor %}
+{%     endif %}
+{% endmacro %}

@@ -68,7 +68,7 @@ dubzland_shorewall_rules:
         rules: { action: "Ping(ACCEPT)", source: all, dest: all }
       - comment: Web traffic
         rules: { action: "Web(ACCEPT)", source: "$FW", dest: net }
-        rules: { action: "ACCEPT", source: "$FW", dest: net, proto: udp, test_ports: [80, 443] }
+        rules: { action: "ACCEPT", source: "$FW", dest: net, proto: udp, dest_ports: [80, 443] }
 ```
 
 The meat of this role.  Configures the rules Shorewall will use to determine how to handle packets traversing its monitored interfaces.  See the [rules man page](http://www.shorewall.net/manpages/shorewall-rules.html) for more info.
