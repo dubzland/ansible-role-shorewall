@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+{% import 'macros.j2' as _tpl with context %}
 #
 # Shorewall -- /etc/shorewall/hosts
 #
@@ -8,6 +10,6 @@
 #
 ###############################################################################
 #ZONE		HOSTS				OPTIONS
-{% for host in dubzland_shorewall_hosts %}
-{{ '%-5s\t%s' | format(host.zone, host.hosts) }}
+{% for _host in dubzland_shorewall_hosts %}
+{{ _tpl.print_host(_host) }}
 {% endfor %}

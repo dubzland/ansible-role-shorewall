@@ -1,0 +1,5 @@
+---
+- name: Verify
+  hosts: all
+  roles:
+    - name: "test_ansible-role-shorewall"

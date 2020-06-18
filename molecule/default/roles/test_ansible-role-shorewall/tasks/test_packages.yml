@@ -1,0 +1,12 @@
+---
+- name: shorewall - check package status
+  package:
+    name: shorewall
+    state: present
+  check_mode: yes
+  register: pkg_status
+
+- name: shorewall - ensure packages installed
+  assert:
+    that:
+      - not pkg_status.changed

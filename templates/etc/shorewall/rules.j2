@@ -1,23 +1,18 @@
 # {{ ansible_managed }}
-{% import 'macros.j2' as tpl with context %}
+{% import 'macros.j2' as _tpl with context %}
 #
-# Shorewall - Sample Rules File for three-interface configuration.
-# Copyright (C) 2006-2015 by the Shorewall Team
+# Shorewall -- /etc/shorewall/rules
 #
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
+# For information on the settings in this file, type "man shorewall-rules"
 #
-# See the file README.txt for further details.
-#------------------------------------------------------------------------------------------------------------
-# For information about entries in this file, type "man shorewall-rules"
-######################################################################################################################################################################################################
-#ACTION		SOURCE		DEST		PROTO	DEST	SOURCE		ORIGINAL	RATE		USER/	MARK	CONNLIMIT	TIME		HEADERS		SWITCH		HELPER
-#							PORT	PORT(S)		DEST		LIMIT		GROUP
-{% for section in dubzland_shorewall_rules %}
-?SECTION {{ section.section }}
-{%   for ruleset in section.rulesets %}
-{{ tpl.print_ruleset }}
+# The manpage is also online at
+# http://www.shorewall.net/manpages/shorewall-rules.html
+#
+##############################################################################################################################################################
+#ACTION		SOURCE		DEST		PROTO	DPORT	SPORT	ORIGDEST	RATE	USER	MARK	CONNLIMIT	TIME	HEADERS	SWITCH	HELPER
+{% for _section in dubzland_shorewall_rules %}
+?SECTION {{ _section.section }}
+{%   for _ruleset in _section.rulesets %}
+{{ _tpl.print_ruleset(ruleset) }}
 {%   endfor %}
 {% endfor %}

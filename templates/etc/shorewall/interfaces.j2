@@ -1,20 +1,16 @@
 # {{ ansible_managed }}
+{% import 'macros.j2' as _tpl with context %}
 #
-# Shorewall - Sample Interfaces File for three-interface configuration.
-# Copyright (C) 2006-2015 by the Shorewall Team
+# Shorewall -- /etc/shorewall/interfaces
 #
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
-#
-# See the file README.txt for further details.
-#------------------------------------------------------------------------------
 # For information about entries in this file, type "man shorewall-interfaces"
-###############################################################################
+#
+# The manpage is also online at
+# http://www.shorewall.net/manpages/shorewall-interfaces.html
+#
 ?FORMAT 2
 ###############################################################################
-#ZONE	INTERFACE	OPTIONS
-{% for iface in dubzland_shorewall_interfaces %}
-{{ '%-5s\t%-9s\t%-10s' | format(iface.zone, iface.name, iface.options | join(',')) }}
+#ZONE		INTERFACE		OPTIONS
+{% for _iface in dubzland_shorewall_interfaces %}
+{{ _tpl.print_interface(_iface) }}
 {% endfor %}

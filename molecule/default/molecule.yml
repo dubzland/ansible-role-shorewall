@@ -3,8 +3,6 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
 platforms:
   - name: dubzland-shorewall-debian9
     image: jdubz/docker-ansible-debian9:latest
@@ -37,10 +35,5 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
-  log: true
-  lint:
-    name: ansible-lint
 verifier:
-  name: testinfra
-  lint:
-    name: flake8
+  name: ansible

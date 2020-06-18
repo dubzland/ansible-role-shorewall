@@ -1,48 +1,121 @@
 {##############################################################################
  #
+ # MACRO :: print_host()
+ #
+ #############################################################################}
+{% macro print_host(_host) %}
+{%   set _zone    = _host.zone %}
+{%   set _hosts   = _host.hosts %}
+{%   set _options = _host.options | default("-") %}
+{{ '%-5s\t%s\t%s' | format(_zone, _hosts, _options) }}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_interface()
+ #
+ #############################################################################}
+{% macro print_interface(_interface) %}
+{%   set _zone    = _interface.zone %}
+{%   set _name    = _interface.name %}
+{%   set _options = (_interface.options | default([])) | join(",") %}
+{{ '%-8s\t%-9s\t\t%-10s' | format(_zone, _name, _options) }}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_policy()
+ #
+ #############################################################################}
+{% macro print_policy(_policy) %}
+{%   set _source    = _policy.source %}
+{%   set _dest      = _policy.dest %}
+{%   set _action    = _policy.action %}
+{%   set _log_level = _policy.log_level | default("-") %}
+{%   set _limit     = _policy.limit | default("-") %}
+{{ '%-7s\t\t%-4s\t\t%-6s\t\t%s\t\t%s' | format(_source, _dest, _action, _log_level, _limit) }}
+{% endmacro %}
+{##############################################################################
+ #
  # MACRO :: print_rule()
  #
  #############################################################################}
-{% macro print_rule(rule) %}
-{%   if rule.comment is defined and rule.comment %}
-# {{ rule.comment }}
+{% macro print_rule(_rule) %}
+{%   if _rule.comment is defined and _rule.comment %}
+# {{ _rule.comment }}
 {%   endif %}
-{%   set action = rule.action %}
-{%   set source = rule.source %}
-{%   set dest   = rule.dest %}
-{%   if rule.proto is defined and rule.proto %}
-{%     set proto  = rule.proto %}
+{%   set _action    = _rule.action %}
+{%   set _source    = _rule.source %}
+{%   set _dest      = _rule.dest %}
+{%   set _proto     = _rule.proto | default("-") %}
+{%   set _origdest  = _rule.origdest | default('-') %}
+{%   set _rate      = _rule.rate | default("-") %}
+{%   set _mark      = _rule.mark | default("-") %}
+{%   set _connlimit = _rule.connlimit | default("-") %}
+{%   set _time      = _rule.time | default("-") %}
+{%   set _switch    = _rule.switch | default("-") %}
+{%   set _helper    = _rule.helper | default("-") %}
+{%   if _rule.dest_ports is defined and _rule.dest_ports %}
+{%     set _dest_ports = _rule.dest_ports | join(",") %}
 {%   else %}
-{%     set proto = "-" %}
+{%     set _dest_ports = "-" %}
 {%   endif %}
-{%   if rule.dest_ports is defined and rule.dest_ports %}
-{%     set dest_ports = (rule.dest_ports | join(',')) %}
+{%   if _rule.source_ports is defined and _rule.source_ports %}
+{%     set _source_ports = _rule.source_ports | join(",") %}
 {%   else %}
-{%     set dest_ports = "-" %}
+{%     set _source_ports = "-" %}
 {%   endif %}
-{%   if rule.source_ports is defined and rule.source_ports %}
-{%     set source_ports = (rule.source_ports | join(',')) %}
+{%   if _rule.users is defined and _rule.users %}
+{%     set _users = _rule.users | join(",") %}
 {%   else %}
-{%     set source_ports = "-" %}
+{%     set _users = "-" %}
 {%   endif %}
-{%   set origdest = (rule.origdest | default('-')) %}
-{{ ('%-12s\t%-12s\t%-12s\t%-5s\t%-12s\t%-12s\t%-12s' | format(action, source, dest, proto, dest_ports, source_ports, origdest) | trim()) }}
+{%   if _rule.headers is defined and _rule.headers %}
+{%     set _headers = _rule.headers | join(",") %}
+{%   else %}
+{%     set _headers = "-" %}
+{%   endif %}
+{%   set _format_string = "%-12s\t%-12s\t%-12s\t%-5s\t%-12s\t%-12s\t%-12s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" %}
+{{ format_string | format(_action, _source, _dest, _proto, _dest_ports, _source_ports, _origdest, _rate, _user, _mark, _limit, _time, _headers, _switch, _helper) | trim() }}
 {% endmacro %}
 {##############################################################################
  #
  # MACRO :: print_ruleset()
  #
  #############################################################################}
-{% macro print_ruleset(ruleset) %}
-{%     if ruleset.comment is defined and ruleset.comment %}
+{% macro print_ruleset(_ruleset) %}
+{%   if _ruleset.comment is defined and _ruleset.comment %}
 
 #
-# {{ ruleset.comment }}
+# {{ _ruleset.comment }}
 #
-{%     endif %}
-{%     if ruleset.rules is defined and ruleset.rules %}
-{%       for rule in ruleset.rules %}
-{{ print_rule(rule) }}
-{%       endfor %}
-{%     endif %}
+{%   endif %}
+{%   if _ruleset.rules is defined and _ruleset.rules %}
+{%     for _rule in _ruleset.rules -%}
+{{ _print_rule(_rule) }}
+{%-    endfor %}
+{%   endif %}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_zone()
+ #
+ #############################################################################}
+{% macro print_zone(_zone) %}
+{%   set _name = _zone.name %}
+{%   set _type = _zone.type %}
+{%   if _zone.options is defined and _zone.options %}
+{%     set _options = _zone.options | join(",") %}
+{%   else %}
+{%     set _options = "-" %}
+{%   endif %}
+{%   if _zone.in_options is defined and _zone.in_options %}
+{%     set _in_options = _zone.in_options | join(",") %}
+{%   else %}
+{%     set _in_options = "-" %}
+{%   endif %}
+{%   if _zone.out_options is defined and _zone.out_options %}
+{%     set _out_options = _zone.out_options | join(",") %}
+{%   else %}
+{%     set _out_options = "-" %}
+{%   endif %}
+{{ "%-5s\t%s\t%s\t%s\t%s" | format(_name, _type, _options, _in_options, _out_options) }}
 {% endmacro %}
