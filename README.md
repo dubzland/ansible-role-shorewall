@@ -26,7 +26,7 @@ dubzland_shorewall_conf:
   logformat: '"%s(%d) %s "'
 ```
 
-Options to be set in `/etc/shorewall/shorewall.conf`.  Option names can be specified in either upper- or lower-case (they will be written in all caps to the file).  See the [shorewall.conf man page][http://www.shorewall.net/manpages/shorewall.conf.html] for more info.
+Options to be set in `/etc/shorewall/shorewall.conf`.  Option names can be specified in either upper- or lower-case (they will be written in all caps to the file).  See the [shorewall.conf man page](http://www.shorewall.net/manpages/shorewall.conf.html) for more info.
 
 ### dubzland_shorewall_params
 
