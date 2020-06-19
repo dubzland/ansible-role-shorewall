@@ -11,6 +11,6 @@
 ?FORMAT 2
 ###############################################################################
 #ZONE		INTERFACE		OPTIONS
-{% for _iface in dubzland_shorewall_interfaces %}
+{% for _iface in dubzland_shorewall_interfaces -%}
 {{ _tpl.print_interface(_iface) }}
-{% endfor %}
+{%- endfor %}

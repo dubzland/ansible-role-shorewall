@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+###############################################################################
+#
+#  Shorewall Version 5 -- /etc/shorewall/shorewall.conf
+#
+#  For information about the settings in this file, type "man shorewall.conf"
+#
+#  Manpage also online at http://www.shorewall.net/manpages/shorewall.conf.html
+###############################################################################_
+{% for _key, _value in dubzland_shorewall_conf.items() %}
+{{ _key | upper }}={{ _value }}
+{% endfor %}

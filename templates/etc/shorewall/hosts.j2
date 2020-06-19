@@ -10,6 +10,6 @@
 #
 ###############################################################################
 #ZONE		HOSTS				OPTIONS
-{% for _host in dubzland_shorewall_hosts %}
+{% for _host in dubzland_shorewall_hosts -%}
 {{ _tpl.print_host(_host) }}
-{% endfor %}
+{%- endfor %}

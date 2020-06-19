@@ -1,4 +1,5 @@
 # {{ ansible_managed }}
+{% import 'macros.j2' as _tpl with context %}
 #
 # Shorewall -- /etc/shorewall/snat
 #
@@ -8,6 +9,6 @@
 #
 ###########################################################################################################################################
 #ACTION			SOURCE			DEST		PROTO	PORT	IPSEC	MARK	USER	SWITCH	ORIGDEST	PROBABILITY
-{% if dubzland_shorewall_masquerade.enabled %}
-MASQUERADE		{{ '%-6s\t\t\t%s' | format(dubzland_shorewall_masquerade.sources | join(','), dubzland_shorewall_masquerade.interface) }}
-{% endif %}
+{% for _rule in dubzland_shorewall_snat -%}
+{{ _tpl.print_snat(_rule) }}
+{%- endfor %}

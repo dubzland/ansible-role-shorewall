@@ -1,5 +1,7 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-    - role: ansible-role-shorewall
+  tasks:
+    - name: "Include ansible-role-shorewall"
+      include_role:
+        name: "ansible-role-shorewall"

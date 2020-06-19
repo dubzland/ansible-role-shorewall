@@ -6,12 +6,14 @@
     group: root
     mode: 0644
   with_items:
-    - interfaces
-    - policy
-    - zones
-    - snat
-    - rules
     - hosts
+    - interfaces
+    - params
+    - policy
+    - rules
+    - shorewall.conf
+    - snat
+    - zones
   notify:
     - restart shorewall
   tags:

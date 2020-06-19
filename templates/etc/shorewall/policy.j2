@@ -10,6 +10,6 @@
 #
 ###############################################################################
 #SOURCE		DEST		POLICY	LOGLEVEL	RATE	CONNLIMIT
-{% for _policy in dubzland_shorewall_policies %}
+{% for _policy in dubzland_shorewall_policies -%}
 {{ _tpl.print_policy(_policy) }}
-{% endfor %}
+{%- endfor %}

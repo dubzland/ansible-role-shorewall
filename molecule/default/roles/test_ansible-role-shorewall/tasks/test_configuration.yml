@@ -8,8 +8,10 @@
   loop:
     - hosts
     - interfaces
+    - params
     - policy
     - rules
+    - shorewall.conf
     - snat
     - zones
   check_mode: yes

@@ -1,8 +1,22 @@
 ---
+dubzland_shorewall_conf:
+  startup_enabled: "yes"
+  verbosity: 1
+  log_level: '"info"'
+  log_martians: "Yes"
+  log_verbosity: 2
+  log_zone: Both
+  logfile: /var/log/shorewall
+  logformat: '"%s(%d) %s "'
+
+dubzland_shorewall_params: []
+
 dubzland_shorewall_zones:
   - name: fw
     type: firewall
   - name: net
+    type: ipv4
+  - name: lan
     type: ipv4
 
 dubzland_shorewall_interfaces:
@@ -12,8 +26,13 @@ dubzland_shorewall_interfaces:
       - tcpflags
       - nosmurfs
       - routefilter
-      - logmartians
       - "sourceroute=0"
+  - name: eth1
+    zone: lan
+    options:
+      - tcpflags
+      - nosmurfs
+      - routefilter
 
 dubzland_shorewall_hosts: []
 
@@ -29,7 +48,20 @@ dubzland_shorewall_policies:
     action: REJECT
     log_level: info
 
+dubzland_shorewall_snat:
+  - action: MASQUERADE
+    dest: eth0
 
-dubzland_shorewall_masquerade:
-  enabled: False
-dubzland_shorewall_rules: []
+dubzland_shorewall_rules:
+  - section: NEW
+    rulesets:
+      - comment: PINGS
+        rules:
+          - action: Ping(ACCEPT)
+            source: all
+            dest: all
+      - comment: Web traffic
+        rules:
+          - action: Web(ACCEPT)
+            source: $FW,lan
+            dest: net

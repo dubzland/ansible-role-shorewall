@@ -3,119 +3,178 @@
  # MACRO :: print_host()
  #
  #############################################################################}
-{% macro print_host(_host) %}
-{%   set _zone    = _host.zone %}
-{%   set _hosts   = _host.hosts %}
-{%   set _options = _host.options | default("-") %}
-{{ '%-5s\t%s\t%s' | format(_zone, _hosts, _options) }}
-{% endmacro %}
+{% macro print_host(_host) -%}
+{%   set _fields    = [] %}
+{%   set _          = _fields.append({ "format": "%-5s", "value": _host.zone | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t\t%-24s", "value": _host.hosts | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _host.options | default(None) }) %}
+{{ print_fields(_fields) }}
+{%- endmacro %}
 {##############################################################################
  #
  # MACRO :: print_interface()
  #
  #############################################################################}
-{% macro print_interface(_interface) %}
-{%   set _zone    = _interface.zone %}
-{%   set _name    = _interface.name %}
-{%   set _options = (_interface.options | default([])) | join(",") %}
-{{ '%-8s\t%-9s\t\t%-10s' | format(_zone, _name, _options) }}
-{% endmacro %}
+{% macro print_interface(_interface) -%}
+{%   set _fields    = [] %}
+{%   set _          = _fields.append({ "format": "%-8s", "value": _interface.zone | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-9s", "value": _interface.name | default(None) }) %}
+{%   if _interface.options is defined and _interface.options %}
+{%     set _        = _fields.append({ "format": "\t\t%-10s", "value": _interface.options | join(",") }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "\t\t%-10s", "value": None }) %}
+{%   endif %}
+{{ print_fields(_fields) }}
+{%- endmacro %}
 {##############################################################################
  #
  # MACRO :: print_policy()
  #
  #############################################################################}
-{% macro print_policy(_policy) %}
-{%   set _source    = _policy.source %}
-{%   set _dest      = _policy.dest %}
-{%   set _action    = _policy.action %}
-{%   set _log_level = _policy.log_level | default("-") %}
-{%   set _limit     = _policy.limit | default("-") %}
-{{ '%-7s\t\t%-4s\t\t%-6s\t\t%s\t\t%s' | format(_source, _dest, _action, _log_level, _limit) }}
-{% endmacro %}
+{% macro print_policy(_policy) -%}
+{%   set _fields    = [] %}
+{%   set _          = _fields.append({ "format": "%-5s", "value": _policy.source | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t\t%-5s", "value": _policy.dest | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t\t%-6s", "value": _policy.action | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-8s", "value": _policy.loglevel | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-6s", "value": _policy.rate | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _policy.connlimit | default(None) }) %}
+{{ print_fields(_fields) }}
+{%- endmacro %}
 {##############################################################################
  #
  # MACRO :: print_rule()
  #
  #############################################################################}
-{% macro print_rule(_rule) %}
+{% macro print_rule(_rule) -%}
 {%   if _rule.comment is defined and _rule.comment %}
 # {{ _rule.comment }}
 {%   endif %}
-{%   set _action    = _rule.action %}
-{%   set _source    = _rule.source %}
-{%   set _dest      = _rule.dest %}
-{%   set _proto     = _rule.proto | default("-") %}
-{%   set _origdest  = _rule.origdest | default('-') %}
-{%   set _rate      = _rule.rate | default("-") %}
-{%   set _mark      = _rule.mark | default("-") %}
-{%   set _connlimit = _rule.connlimit | default("-") %}
-{%   set _time      = _rule.time | default("-") %}
-{%   set _switch    = _rule.switch | default("-") %}
-{%   set _helper    = _rule.helper | default("-") %}
+{%   set _fields    = [] %}
+{%   set _          = _fields.append({ "format": "%-12s", "value": _rule.action | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-12s", "value": _rule.source | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-12s", "value": _rule.dest | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-5s", "value": _rule.proto | default(None) }) %}
 {%   if _rule.dest_ports is defined and _rule.dest_ports %}
-{%     set _dest_ports = _rule.dest_ports | join(",") %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": _rule.dest_ports | join(",") }) %}
 {%   else %}
-{%     set _dest_ports = "-" %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": None }) %}
 {%   endif %}
 {%   if _rule.source_ports is defined and _rule.source_ports %}
-{%     set _source_ports = _rule.source_ports | join(",") %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": _rule.source_ports | join(",") }) %}
 {%   else %}
-{%     set _source_ports = "-" %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": None }) %}
 {%   endif %}
+{%   set _          = _fields.append({ "format": "\t%-12s", "value": _rule.origdest | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.rate | default(None) }) %}
 {%   if _rule.users is defined and _rule.users %}
-{%     set _users = _rule.users | join(",") %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": _rule.users | join(",") }) %}
 {%   else %}
-{%     set _users = "-" %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": None }) %}
 {%   endif %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.mark | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-9s", "value": _rule.connlimit | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.time | default(None) }) %}
 {%   if _rule.headers is defined and _rule.headers %}
-{%     set _headers = _rule.headers | join(",") %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": _rule.headers | join(",") }) %}
 {%   else %}
-{%     set _headers = "-" %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": None }) %}
 {%   endif %}
-{%   set _format_string = "%-12s\t%-12s\t%-12s\t%-5s\t%-12s\t%-12s\t%-12s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" %}
-{{ format_string | format(_action, _source, _dest, _proto, _dest_ports, _source_ports, _origdest, _rate, _user, _mark, _limit, _time, _headers, _switch, _helper) | trim() }}
-{% endmacro %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.switch | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.helper | default(None) }) %}
+{{ print_fields(_fields) }}
+{%- endmacro %}
 {##############################################################################
  #
  # MACRO :: print_ruleset()
  #
  #############################################################################}
-{% macro print_ruleset(_ruleset) %}
+{% macro print_ruleset(_ruleset) -%}
 {%   if _ruleset.comment is defined and _ruleset.comment %}
 
-#
+#-------------------------------------------------------------------------------
 # {{ _ruleset.comment }}
-#
+#-------------------------------------------------------------------------------
 {%   endif %}
 {%   if _ruleset.rules is defined and _ruleset.rules %}
 {%     for _rule in _ruleset.rules -%}
-{{ _print_rule(_rule) }}
+{{ print_rule(_rule) }}
 {%-    endfor %}
 {%   endif %}
-{% endmacro %}
+{%- endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_snat()
+ #
+ #############################################################################}
+{% macro print_snat(_rule) -%}
+{%   set _fields    = [] %}
+{%   set _          = _fields.append({ "format": "%-6s", "value": _rule.action | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t\t%-12s", "value": _rule.source | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t\t%-9s", "value": _rule.dest | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-5s", "value": _rule.proto | default(None) }) %}
+{%   if _rule.dest_ports is defined and _rule.dest_ports %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": _rule.dest_ports | join(",") }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": None }) %}
+{%   endif %}
+{%   if _rule.ipsec is defined and _rule.ipsec %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": _rule.ipsec | join(",") }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": None }) %}
+{%   endif %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.mark | default(None) }) %}
+{%   if _rule.users is defined and _rule.users %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": _rule.users | join(",") }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": None }) %}
+{%   endif %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.switch | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-12s", "value": _rule.origdest | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-12s", "value": _rule.probability | default(None) }) %}
+{{ print_fields(_fields) }}
+{%- endmacro %}
 {##############################################################################
  #
  # MACRO :: print_zone()
  #
  #############################################################################}
-{% macro print_zone(_zone) %}
-{%   set _name = _zone.name %}
-{%   set _type = _zone.type %}
+{% macro print_zone(_zone) -%}
+{%   set _fields    = [] %}
+{%   set _          = _fields.append({ "format": "%-5s", "value": _zone.name | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t\t%-12s", "value": _zone.type | default(None) }) %}
 {%   if _zone.options is defined and _zone.options %}
-{%     set _options = _zone.options | join(",") %}
+{%     set _        = _fields.append({ "format": "\t%-12s", "value": _zone.options | join(",") }) %}
 {%   else %}
-{%     set _options = "-" %}
+{%     set _        = _fields.append({ "format": "\t%-12s", "value": None }) %}
 {%   endif %}
 {%   if _zone.in_options is defined and _zone.in_options %}
-{%     set _in_options = _zone.in_options | join(",") %}
+{%     set _        = _fields.append({ "format": "\t%-12s", "value": _zone.in_options | join(",") }) %}
 {%   else %}
-{%     set _in_options = "-" %}
+{%     set _        = _fields.append({ "format": "\t%-12s", "value": None }) %}
 {%   endif %}
 {%   if _zone.out_options is defined and _zone.out_options %}
-{%     set _out_options = _zone.out_options | join(",") %}
+{%     set _        = _fields.append({ "format": "\t%-12s", "value": _zone.out_options | join(",") }) %}
 {%   else %}
-{%     set _out_options = "-" %}
+{%     set _        = _fields.append({ "format": "\t%-12s", "value": None }) %}
 {%   endif %}
-{{ "%-5s\t%s\t%s\t%s\t%s" | format(_name, _type, _options, _in_options, _out_options) }}
+{{ print_fields(_fields) }}
+{%- endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_fields()
+ #
+ #############################################################################}
+{% macro print_fields(_fields) %}
+{%   set _values = [] %}
+{%   for _field in (_fields | reverse()) %}
+{%     if _field.value is not none %}
+{%       set _ = _values.insert(0, (_field.format | format(_field.value))) %}
+{%     else %}
+{%       if (_values | length()) > 0 %}
+{%         set _ = _values.insert(0, (_field.format | format("-"))) %}
+{%       endif %}
+{%     endif %}
+{%   endfor %}
+{{ _values | join("") }}
 {% endmacro %}

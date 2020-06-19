@@ -10,9 +10,10 @@
 #
 ##############################################################################################################################################################
 #ACTION		SOURCE		DEST		PROTO	DPORT	SPORT	ORIGDEST	RATE	USER	MARK	CONNLIMIT	TIME	HEADERS	SWITCH	HELPER
-{% for _section in dubzland_shorewall_rules %}
+{% for _section in dubzland_shorewall_rules -%}
+
 ?SECTION {{ _section.section }}
-{%   for _ruleset in _section.rulesets %}
-{{ _tpl.print_ruleset(ruleset) }}
-{%   endfor %}
-{% endfor %}
+{%   for _ruleset in _section.rulesets -%}
+{{ _tpl.print_ruleset(_ruleset) }}
+{%-   endfor %}
+{%- endfor %}
