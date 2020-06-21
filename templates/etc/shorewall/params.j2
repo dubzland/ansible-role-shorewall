@@ -23,6 +23,6 @@
 #       net     eth0            130.252.100.255 routefilter,norfc1918
 #
 ###############################################################################
-{% for _param in dubzland_shorewall_params -%}
+{% for _param in dubzland_shorewall_params %}
 {{ _param.key }}={{ _param.value }}
-{%- endfor %}
+{% endfor %}
