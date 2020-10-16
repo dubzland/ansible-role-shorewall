@@ -11,6 +11,12 @@ dubzland_shorewall_conf:
 
 dubzland_shorewall_params: []
 
+dubzland_shorewall_tunnels: []
+# - type: openvpnserver:1194
+#   zone: net
+#   gateway: 0.0.0.0/0
+#   gwzone: vpn
+
 dubzland_shorewall_macros:
 # The name: key is limited to alphanumeric characters (shorewall
 # syntax).
