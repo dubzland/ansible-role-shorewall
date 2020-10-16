@@ -11,6 +11,35 @@ dubzland_shorewall_conf:
 
 dubzland_shorewall_params: []
 
+dubzland_shorewall_macros:
+# The name: key is limited to alphanumeric characters (shorewall
+# syntax).
+#
+#  - name: Bareos
+#    desc: Bareos File Backup/Restore service
+#    actions:
+#      - action: PARAM
+#        proto: tcp
+#        dest_ports: "9101:9103"
+#        source_ports: "-"
+#
+  # SIP - VoIP Macro specifying the minimal options
+  - name: SIP
+    desc: SIP / Voice over IP
+    rules:
+      - proto: tcp
+        dest_ports: 5060,5065
+      - proto: udp
+        dest_ports: 5060,5065
+      - proto: tcp
+        dest_ports: 10000:10100
+      - proto: udp
+        dest_ports: 10000:10100
+      - proto: tcp
+        dest_ports: 5004:5020
+      - proto: udp
+        dest_ports: 5004:5020
+
 dubzland_shorewall_zones:
   - name: fw
     type: firewall

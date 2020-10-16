@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+{% import 'j2macros.j2' as _tpl with context %}
+#
+# Shorewall 5 - {{ item.desc | default(item.name) }}
+#
+# /etc/shorewall/macro.{{ item.name }}
+#
+# For information about entries in this file see https://shorewall.org/Macros.html
+#
+#######################################################################################################
+#                                         DO NOT REMOVE THE FOLLOWING LINE
+##############################################################################################################################################################
+#ACTION      SOURCE      DEST      PROTO    DPORT    SPORT    ORIGDEST        RATE    USER    MARK    CONNLIMIT       TIME    HEADERS SWITCH  HELPER
+
+{% for _rule in item.rules %}
+{{ _tpl.print_macro(_rule) }}
+{% endfor %}
+
+#LAST LINE -- ADD YOUR ENTRIES BEFORE THIS ONE -- DO NOT REMOVE

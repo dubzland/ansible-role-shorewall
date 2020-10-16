@@ -1,4 +1,18 @@
-- name: ensure shorewall is configured
+- name: Write shorewall macro files
+  template:
+    src: "etc/shorewall/macro.j2"
+    dest: "{{ dubzland_shorewall_configuration_root }}/macro.{{ item.name }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ dubzland_shorewall_macros }}"
+  notify:
+    - restart shorewall
+  tags:
+    - shorewall
+
+- name: Write shorewall configuration files.
   template:
     src: "etc/shorewall/{{ item }}.j2"
     dest: "{{ dubzland_shorewall_configuration_root }}/{{ item }}"
