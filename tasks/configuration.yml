@@ -27,6 +27,7 @@
     - rules
     - shorewall.conf
     - snat
+    - tunnels
     - zones
   notify:
     - restart shorewall

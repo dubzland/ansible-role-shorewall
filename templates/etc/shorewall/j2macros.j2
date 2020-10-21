@@ -43,6 +43,19 @@
 {%- endmacro %}
 {##############################################################################
  #
+ # MACRO :: print_tunnel()
+ #
+ #############################################################################}
+{% macro print_tunnel(_tunnel) -%}
+{%   set _fields    = [] %}
+{%   set _          = _fields.append({ "format": "%-5s", "value": _policy.type | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t\t%-5s", "value": _policy.zone | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t\t%-6s", "value": _policy.gateway | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-8s", "value": _policy.gwzone | default(None) }) %}
+{{ print_fields(_fields) }}
+{%- endmacro %}
+{##############################################################################
+ #
  # MACRO :: print_rule()
  #
  #############################################################################}
