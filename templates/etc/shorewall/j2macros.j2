@@ -86,6 +86,53 @@
 {%- endmacro %}
 {##############################################################################
  #
+ # MACRO :: print_macro()
+ #
+ #############################################################################}
+{% macro print_macro(_rule) -%}
+{%   if _rule.comment is defined and _rule.comment %}
+# {{ _rule.comment }}
+{%   endif %}
+{%   set _fields    = [] %}
+{%   if _rule.action is not defined or _rule.action == "-" %}
+{%     set _        = _fields.append({ "format": "%-12s", "value": "PARAM" }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "%-12s", "value": _rule.action }) %}
+{%   endif %}
+{%   set _          = _fields.append({ "format": "\t%-12s", "value": _rule.source | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-12s", "value": _rule.dest | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-5s", "value": _rule.proto | default(None) }) %}
+{%   if _rule.dest_ports is defined and _rule.dest_ports %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": _rule.dest_ports | join(",") }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": None }) %}
+{%   endif %}
+{%   if _rule.source_ports is defined and _rule.source_ports %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": _rule.source_ports | join(",") }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "\t%-5s", "value": None }) %}
+{%   endif %}
+{%   set _          = _fields.append({ "format": "\t%-12s", "value": _rule.origdest | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.rate | default(None) }) %}
+{%   if _rule.users is defined and _rule.users %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": _rule.users | join(",") }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": None }) %}
+{%   endif %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.mark | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%-9s", "value": _rule.connlimit | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.time | default(None) }) %}
+{%   if _rule.headers is defined and _rule.headers %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": _rule.headers | join(",") }) %}
+{%   else %}
+{%     set _        = _fields.append({ "format": "\t%s", "value": None }) %}
+{%   endif %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.switch | default(None) }) %}
+{%   set _          = _fields.append({ "format": "\t%s", "value": _rule.helper | default(None) }) %}
+{{ print_fields(_fields) }}
+{%- endmacro %}
+{##############################################################################
+ #
  # MACRO :: print_ruleset()
  #
  #############################################################################}

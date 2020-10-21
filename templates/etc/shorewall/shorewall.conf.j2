@@ -1,4 +1,6 @@
 # {{ ansible_managed }}
+{% set Yes = true %}
+{% set No = false %}
 ###############################################################################
 #
 #  Shorewall Version 5 -- /etc/shorewall/shorewall.conf
@@ -6,7 +8,290 @@
 #  For information about the settings in this file, type "man shorewall.conf"
 #
 #  Manpage also online at http://www.shorewall.net/manpages/shorewall.conf.html
-###############################################################################_
-{% for _key, _value in dubzland_shorewall_conf.items() %}
-{{ _key | upper }}={{ _value }}
-{% endfor %}
+###############################################################################
+#		       S T A R T U P   E N A B L E D
+###############################################################################
+
+STARTUP_ENABLED={{ dubzland_shorewall_conf["STARTUP_ENABLED" | lower] |default(Yes) |yesno }}
+
+###############################################################################
+#			     V E R B O S I T Y
+###############################################################################
+
+VERBOSITY={{ dubzland_shorewall_conf["VERBOSITY" | lower] |default(1)  }}
+
+###############################################################################
+#			        P A G E R
+###############################################################################
+
+PAGER="{{ dubzland_shorewall_conf["PAGER" | lower] |default("")  }}"
+
+###############################################################################
+#			     F I R E W A L L
+###############################################################################
+
+FIREWALL="{{ dubzland_shorewall_conf["FIREWALL" | lower] |default("")  }}"
+
+###############################################################################
+#			       L O G G I N G
+###############################################################################
+
+LOG_LEVEL="{{ dubzland_shorewall_conf["LOG_LEVEL" | lower] |default("info") }}"
+
+BLACKLIST_LOG_LEVEL="{{ dubzland_shorewall_conf["BLACKLIST_LOG_LEVEL" | lower] |default("")  }}"
+
+INVALID_LOG_LEVEL="{{ dubzland_shorewall_conf["INVALID_LOG_LEVEL" | lower] |default("")  }}"
+
+LOG_BACKEND="{{ dubzland_shorewall_conf["LOG_BACKEND" | lower] |default("")  }}"
+
+LOG_MARTIANS={{ dubzland_shorewall_conf["LOG_MARTIANS" | lower] |default(Yes) |yesno }}
+
+LOG_VERBOSITY={{ dubzland_shorewall_conf["LOG_VERBOSITY" | lower] |default(2)  }}
+
+LOGALLNEW="{{ dubzland_shorewall_conf["LOGALLNEW" | lower] |default("")  }}"
+
+LOGFILE="{{ dubzland_shorewall_conf["LOGFILE" | lower] |default("/var/log/messages")  }}"
+
+LOGFORMAT="{{ dubzland_shorewall_conf["LOGFORMAT" | lower] |default("%s %s ") }}"
+
+LOGTAGONLY={{ dubzland_shorewall_conf["LOGTAGONLY" | lower] |default(No) |yesno }}
+
+LOGLIMIT="{{ dubzland_shorewall_conf["LOGLIMIT" | lower] |default("s:1/sec:10") }}"
+
+MACLIST_LOG_LEVEL="{{ dubzland_shorewall_conf["MACLIST_LOG_LEVEL" | lower] |default("$LOG_LEVEL") }}"
+
+RELATED_LOG_LEVEL="{{ dubzland_shorewall_conf["RELATED_LOG_LEVEL" | lower] |default("")  }}"
+
+RPFILTER_LOG_LEVEL="{{ dubzland_shorewall_conf["RPFILTER_LOG_LEVEL" | lower] |default("$LOG_LEVEL") }}"
+
+SFILTER_LOG_LEVEL="{{ dubzland_shorewall_conf["SFILTER_LOG_LEVEL" | lower] |default("$LOG_LEVEL") }}"
+
+SMURF_LOG_LEVEL="{{ dubzland_shorewall_conf["SMURF_LOG_LEVEL" | lower] |default("$LOG_LEVEL") }}"
+
+STARTUP_LOG=/var/log/shorewall-init.log
+
+TCP_FLAGS_LOG_LEVEL="{{ dubzland_shorewall_conf["TCP_FLAGS_LOG_LEVEL" | lower] |default("$LOG_LEVEL") }}"
+
+UNTRACKED_LOG_LEVEL="{{ dubzland_shorewall_conf["UNTRACKED_LOG_LEVEL" | lower] |default("")  }}"
+
+###############################################################################
+#	L O C A T I O N	  O F	F I L E S   A N D   D I R E C T O R I E S
+###############################################################################
+
+ARPTABLES="{{ dubzland_shorewall_conf["ARPTABLES" | lower] |default("")  }}"
+
+CONFIG_PATH="{{ dubzland_shorewall_conf["CONFIG_PATH" | lower] |default(":${CONFDIR}/shorewall:${SHAREDIR}/shorewall") }}"
+
+GEOIPDIR="{{ dubzland_shorewall_conf["GEOIPDIR" | lower] |default("/usr/share/xt_geoip/LE")  }}"
+
+IPTABLES="{{ dubzland_shorewall_conf["IPTABLES" | lower] |default("")  }}"
+
+IP="{{ dubzland_shorewall_conf["IP" | lower] |default("")  }}"
+
+IPSET="{{ dubzland_shorewall_conf["IPSET" | lower] |default("")  }}"
+
+LOCKFILE="{{ dubzland_shorewall_conf["LOCKFILE" | lower] |default("")  }}"
+
+MODULESDIR="{{ dubzland_shorewall_conf["MODULESDIR" | lower] |default("")  }}"
+
+NFACCT="{{ dubzland_shorewall_conf["NFACCT" | lower] |default("")  }}"
+
+PATH="{{ dubzland_shorewall_conf["PATH" | lower] |default("/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin") }}"
+
+PERL="{{ dubzland_shorewall_conf["PERL" | lower] |default("/usr/bin/perl")  }}"
+
+RESTOREFILE="{{ dubzland_shorewall_conf["RESTOREFILE" | lower] |default("restore")  }}"
+
+SHOREWALL_SHELL="{{ dubzland_shorewall_conf["SHOREWALL_SHELL" | lower] |default("/bin/sh")  }}"
+
+SUBSYSLOCK="{{ dubzland_shorewall_conf["SUBSYSLOCK" | lower] |default("") }}"
+
+TC="{{ dubzland_shorewall_conf["TC" | lower] |default("")  }}"
+
+###############################################################################
+#		D E F A U L T   A C T I O N S / M A C R O S
+###############################################################################
+
+ACCEPT_DEFAULT="{{ dubzland_shorewall_conf["ACCEPT_DEFAULT" | lower] |default("none") }}"
+BLACKLIST_DEFAULT="{{ dubzland_shorewall_conf["BLACKLIST_DEFAULT" | lower] |default("Broadcast(DROP),Multicast(DROP),dropNotSyn:$LOG_LEVEL,dropInvalid:$LOG_LEVEL,DropDNSrep:$LOG_LEVEL") }}"
+DROP_DEFAULT="{{ dubzland_shorewall_conf["DROP_DEFAULT" | lower] |default("Broadcast(DROP),Multicast(DROP)") }}"
+NFQUEUE_DEFAULT="{{ dubzland_shorewall_conf["NFQUEUE_DEFAULT" | lower] |default("none") }}"
+QUEUE_DEFAULT="{{ dubzland_shorewall_conf["QUEUE_DEFAULT" | lower] |default("none") }}"
+REJECT_DEFAULT="{{ dubzland_shorewall_conf["REJECT_DEFAULT" | lower] |default("Broadcast(DROP),Multicast(DROP)") }}"
+
+###############################################################################
+#			 R S H / R C P	C O M M A N D S
+###############################################################################
+# NB: must be single quoted:
+RCP_COMMAND='{{ dubzland_shorewall_conf["RCP_COMMAND" | lower] |default('scp ${files} ${root}@${system}:${destination}') }}'
+RSH_COMMAND='{{ dubzland_shorewall_conf["RSH_COMMAND" | lower] |default('ssh ${root}@${system} ${command}') }}'
+
+###############################################################################
+#			F I R E W A L L	  O P T I O N S
+###############################################################################
+
+ACCOUNTING={{ dubzland_shorewall_conf["ACCOUNTING" | lower] |default(Yes) |yesno }}
+
+ACCOUNTING_TABLE="{{ dubzland_shorewall_conf["ACCOUNTING_TABLE" | lower] |default("filter")  }}"
+
+ADD_IP_ALIASES={{ dubzland_shorewall_conf["ADD_IP_ALIASES" | lower] |default(No) |yesno }}
+
+ADD_SNAT_ALIASES={{ dubzland_shorewall_conf["ADD_SNAT_ALIASES" | lower] |default(No) |yesno }}
+
+ADMINISABSENTMINDED={{ dubzland_shorewall_conf["ADMINISABSENTMINDED" | lower] |default(Yes) |yesno }}
+
+AUTOCOMMENT={{ dubzland_shorewall_conf["AUTOCOMMENT" | lower] |default(Yes) |yesno }}
+
+AUTOHELPERS={{ dubzland_shorewall_conf["AUTOHELPERS" | lower] |default(Yes) |yesno }}
+
+AUTOMAKE={{ dubzland_shorewall_conf["AUTOMAKE" | lower] |default(Yes) |yesno }}
+
+BALANCE_PROVIDERS={{ dubzland_shorewall_conf["BALANCE_PROVIDERS" | lower] |default(No) |yesno }}
+
+BASIC_FILTERS={{ dubzland_shorewall_conf["BASIC_FILTERS" | lower] |default(No) |yesno }}
+
+BLACKLIST="{{ dubzland_shorewall_conf["BLACKLIST" | lower] |default("NEW,INVALID,UNTRACKED") }}"
+
+CLAMPMSS={{ dubzland_shorewall_conf["CLAMPMSS" | lower] |default(No) |yesno }}
+
+CLEAR_TC={{ dubzland_shorewall_conf["CLEAR_TC" | lower] |default(Yes) |yesno }}
+
+COMPLETE={{ dubzland_shorewall_conf["COMPLETE" | lower] |default(No) |yesno }}
+
+DEFER_DNS_RESOLUTION={{ dubzland_shorewall_conf["DEFER_DNS_RESOLUTION" | lower] |default(Yes) |yesno }}
+
+DELETE_THEN_ADD={{ dubzland_shorewall_conf["DELETE_THEN_ADD" | lower] |default(Yes) |yesno }}
+
+DETECT_DNAT_IPADDRS={{ dubzland_shorewall_conf["DETECT_DNAT_IPADDRS" | lower] |default(No) |yesno }}
+
+DISABLE_IPV6={{ dubzland_shorewall_conf["DISABLE_IPV6" | lower] |default(No) |yesno }}
+
+DOCKER={{ dubzland_shorewall_conf["DOCKER" | lower] |default(No) |yesno }}
+
+DONT_LOAD="{{ dubzland_shorewall_conf["DONT_LOAD" | lower] |default("")  }}"
+
+DYNAMIC_BLACKLIST={{ dubzland_shorewall_conf["DYNAMIC_BLACKLIST" | lower] |default(Yes) |yesno }}
+
+EXPAND_POLICIES={{ dubzland_shorewall_conf["EXPAND_POLICIES" | lower] |default(Yes) |yesno }}
+
+EXPORTMODULES={{ dubzland_shorewall_conf["EXPORTMODULES" | lower] |default(Yes) |yesno }}
+
+FASTACCEPT={{ dubzland_shorewall_conf["FASTACCEPT" | lower] |default(No) |yesno }}
+
+FORWARD_CLEAR_MARK="{{ dubzland_shorewall_conf["FORWARD_CLEAR_MARK" | lower] |default("")  }}"
+
+HELPERS="{{ dubzland_shorewall_conf["HELPERS" | lower] |default("")  }}"
+
+IGNOREUNKNOWNVARIABLES={{ dubzland_shorewall_conf["IGNOREUNKNOWNVARIABLES" | lower] |default(No) |yesno }}
+
+IMPLICIT_CONTINUE={{ dubzland_shorewall_conf["IMPLICIT_CONTINUE" | lower] |default(No) |yesno }}
+
+IPSET_WARNINGS={{ dubzland_shorewall_conf["IPSET_WARNINGS" | lower] |default(Yes) |yesno }}
+
+IP_FORWARDING="{{ dubzland_shorewall_conf["IP_FORWARDING" | lower] |default("Keep")  }}"
+
+KEEP_RT_TABLES={{ dubzland_shorewall_conf["KEEP_RT_TABLES" | lower] |default(No) |yesno }}
+
+MACLIST_TABLE="{{ dubzland_shorewall_conf["MACLIST_TABLE" | lower] |default("filter")  }}"
+
+MACLIST_TTL="{{ dubzland_shorewall_conf["MACLIST_TTL" | lower] |default("")  }}"
+
+MANGLE_ENABLED={{ dubzland_shorewall_conf["MANGLE_ENABLED" | lower] |default(Yes) |yesno }}
+
+MARK_IN_FORWARD_CHAIN={{ dubzland_shorewall_conf["MARK_IN_FORWARD_CHAIN" | lower] |default(No) |yesno }}
+
+MINIUPNPD={{ dubzland_shorewall_conf["MINIUPNPD" | lower] |default(No) |yesno }}
+
+MULTICAST={{ dubzland_shorewall_conf["MULTICAST" | lower] |default(No) |yesno }}
+
+MUTEX_TIMEOUT={{ dubzland_shorewall_conf["MUTEX_TIMEOUT" | lower] |default(60)  }}
+
+NULL_ROUTE_RFC1918={{ dubzland_shorewall_conf["NULL_ROUTE_RFC1918" | lower] |default(No) |yesno }}
+
+OPTIMIZE="{{ dubzland_shorewall_conf["OPTIMIZE" | lower] |default("All")  }}"
+
+OPTIMIZE_ACCOUNTING={{ dubzland_shorewall_conf["OPTIMIZE_ACCOUNTING" | lower] |default(No) |yesno }}
+
+PERL_HASH_SEED="{{ dubzland_shorewall_conf["PERL_HASH_SEED" | lower] |default(0)  }}"
+
+REJECT_ACTION="{{ dubzland_shorewall_conf["REJECT_ACTION" | lower] |default("")  }}"
+
+REQUIRE_INTERFACE={{ dubzland_shorewall_conf["REQUIRE_INTERFACE" | lower] |default(No) |yesno }}
+
+RESTART="{{ dubzland_shorewall_conf["RESTART" | lower] |default("restart")  }}"
+
+RESTORE_DEFAULT_ROUTE={{ dubzland_shorewall_conf["RESTORE_DEFAULT_ROUTE" | lower] |default(Yes) |yesno }}
+
+RESTORE_ROUTEMARKS={{ dubzland_shorewall_conf["RESTORE_ROUTEMARKS" | lower] |default(Yes) |yesno }}
+
+RETAIN_ALIASES={{ dubzland_shorewall_conf["RETAIN_ALIASES" | lower] |default(No) |yesno }}
+
+ROUTE_FILTER={{ dubzland_shorewall_conf["ROUTE_FILTER" | lower] |default(Yes) |yesno }}
+
+SAVE_ARPTABLES={{ dubzland_shorewall_conf["SAVE_ARPTABLES" | lower] |default(No) |yesno }}
+
+SAVE_IPSETS={{ dubzland_shorewall_conf["SAVE_IPSETS" | lower] |default(No) |yesno }}
+
+TC_ENABLED="{{ dubzland_shorewall_conf["TC_ENABLED" | lower] |default("Internal")  }}"
+
+TC_EXPERT={{ dubzland_shorewall_conf["TC_EXPERT" | lower] |default(No) |yesno }}
+
+TC_PRIOMAP="{{ dubzland_shorewall_conf["TC_PRIOMAP" | lower] |default("2 3 3 3 2 3 1 1 2 2 2 2 2 2 2 2") }}"
+
+TRACK_PROVIDERS={{ dubzland_shorewall_conf["TRACK_PROVIDERS" | lower] |default(Yes) |yesno }}
+
+TRACK_RULES={{ dubzland_shorewall_conf["TRACK_RULES" | lower] |default(No) |yesno }}
+
+USE_DEFAULT_RT={{ dubzland_shorewall_conf["USE_DEFAULT_RT" | lower] |default(Yes) |yesno }}
+
+USE_NFLOG_SIZE={{ dubzland_shorewall_conf["USE_NFLOG_SIZE" | lower] |default(No) |yesno }}
+
+USE_PHYSICAL_NAMES={{ dubzland_shorewall_conf["USE_PHYSICAL_NAMES" | lower] |default(No) |yesno }}
+
+USE_RT_NAMES={{ dubzland_shorewall_conf["USE_RT_NAMES" | lower] |default(No) |yesno }}
+
+VERBOSE_MESSAGES={{ dubzland_shorewall_conf["VERBOSE_MESSAGES" | lower] |default(Yes) |yesno }}
+
+WARNOLDCAPVERSION={{ dubzland_shorewall_conf["WARNOLDCAPVERSION" | lower] |default(Yes) |yesno }}
+
+WORKAROUNDS={{ dubzland_shorewall_conf["WORKAROUNDS" | lower] |default(No) |yesno }}
+
+ZERO_MARKS={{ dubzland_shorewall_conf["ZERO_MARKS" | lower] |default(No) |yesno }}
+
+ZONE2ZONE="{{ dubzland_shorewall_conf["ZONE2ZONE" | lower] |default("-")  }}"
+
+###############################################################################
+#			P A C K E T   D I S P O S I T I O N
+###############################################################################
+
+BLACKLIST_DISPOSITION="{{ dubzland_shorewall_conf["BLACKLIST_DISPOSITION" | lower] |default("DROP")  }}"
+
+INVALID_DISPOSITION="{{ dubzland_shorewall_conf["INVALID_DISPOSITION" | lower] |default("CONTINUE")  }}"
+
+MACLIST_DISPOSITION="{{ dubzland_shorewall_conf["MACLIST_DISPOSITION" | lower] |default("REJECT")  }}"
+
+RELATED_DISPOSITION="{{ dubzland_shorewall_conf["RELATED_DISPOSITION" | lower] |default("ACCEPT")  }}"
+
+RPFILTER_DISPOSITION="{{ dubzland_shorewall_conf["RPFILTER_DISPOSITION" | lower] |default("DROP")  }}"
+
+SMURF_DISPOSITION="{{ dubzland_shorewall_conf["SMURF_DISPOSITION" | lower] |default("DROP")  }}"
+
+SFILTER_DISPOSITION="{{ dubzland_shorewall_conf["SFILTER_DISPOSITION" | lower] |default("DROP")  }}"
+
+TCP_FLAGS_DISPOSITION="{{ dubzland_shorewall_conf["TCP_FLAGS_DISPOSITION" | lower] |default("DROP")  }}"
+
+UNTRACKED_DISPOSITION="{{ dubzland_shorewall_conf["UNTRACKED_DISPOSITION" | lower] |default("CONTINUE")  }}"
+
+################################################################################
+#			P A C K E T  M A R K  L A Y O U T
+################################################################################
+
+TC_BITS="{{ dubzland_shorewall_conf["TC_BITS" | lower] |default("")  }}"
+
+PROVIDER_BITS="{{ dubzland_shorewall_conf["PROVIDER_BITS" | lower] |default("")  }}"
+
+PROVIDER_OFFSET="{{ dubzland_shorewall_conf["PROVIDER_OFFSET" | lower] |default("")  }}"
+
+MASK_BITS="{{ dubzland_shorewall_conf["MASK_BITS" | lower] |default("")  }}"
+
+ZONE_BITS="{{ dubzland_shorewall_conf["ZONE_BITS" | lower] |default(0)  }}"
